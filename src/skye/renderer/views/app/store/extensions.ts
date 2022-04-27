@@ -7,7 +7,7 @@ import { IBrowserAction } from '../models';
 import { promises } from 'fs';
 import { ipcRenderer } from 'electron';
 import store from '.';
-import { extensionMainChannel } from '~/common/rpc/extensions';
+import { getExtensionMainChannel } from '~/common/rpc/extensions';
 
 export class ExtensionsStore {
   public browserActions: IBrowserAction[] = [];
@@ -104,6 +104,6 @@ export class ExtensionsStore {
       (x) => x.extensionId !== id,
     );
 
-    extensionMainChannel.getInvoker().uninstall(id);
+    getExtensionMainChannel().getInvoker().uninstall(id);
   }
 }

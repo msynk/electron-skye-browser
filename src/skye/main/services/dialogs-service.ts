@@ -102,7 +102,7 @@ export class DialogsService {
     }
 
     const appWindow =
-      Application.instance.windows.fromBrowserWindow(browserWindow);
+      Application.getInstance().windows.fromBrowserWindow(browserWindow);
 
     if (foundDialog && tabAssociation) {
       foundDialog.tabIds.push(tabAssociation.tabId);

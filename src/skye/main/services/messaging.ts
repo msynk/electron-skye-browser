@@ -48,7 +48,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
   });
 
   ipcMain.on(`search-show-${id}`, (e, data) => {
-    const dialog = Application.instance.dialogs.getPersistent(
+    const dialog = Application.getInstance().dialogs.getPersistent(
       'search',
     ) as SearchDialog;
     dialog.data = data;
@@ -56,7 +56,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
   });
 
   ipcMain.handle(`is-dialog-visible-${id}`, (e, dialog) => {
-    return Application.instance.dialogs.isVisible(dialog);
+    return Application.getInstance().dialogs.isVisible(dialog);
   });
 
   ipcMain.on(`find-show-${id}`, () => {
@@ -129,7 +129,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
 
         const item =
           _id &&
-          (await Application.instance.storage.findOne<IFormFillData>({
+          (await Application.getInstance().storage.findOne<IFormFillData>({
             scope: 'formfill',
             query: { _id },
           }));
@@ -165,7 +165,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
       const hostname = view.hostname;
 
       if (!update) {
-        const item = await Application.instance.storage.insert<IFormFillData>({
+        const item = await Application.getInstance().storage.insert<IFormFillData>({
           scope: 'formfill',
           item: {
             type: 'password',
@@ -183,7 +183,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
           item,
         );
       } else {
-        await Application.instance.storage.update({
+        await Application.getInstance().storage.update({
           scope: 'formfill',
           query: {
             type: 'password',
@@ -211,7 +211,7 @@ export const runMessagingService = (appWindow: AppWindow) => {
       const { _id, fields } = data;
       const view = appWindow.viewManager.selected;
 
-      await Application.instance.storage.remove({
+      await Application.getInstance().storage.remove({
         scope: 'formfill',
         query: {
           _id,

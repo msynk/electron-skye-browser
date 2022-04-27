@@ -6,14 +6,14 @@ import {
 } from 'electron';
 import { IBookmark } from '~/interfaces';
 import { Application } from '../Application';
-import { AppWindow } from '../windows/app';
+import { AppWindow } from '../windows/AppWindow';
 import { showAddBookmarkDialog } from '../dialogs/add-bookmark';
 
 function getIcon(
   favicon: string | undefined
 ): NativeImage | string {
   if (favicon) {
-    let dataURL = Application.instance.storage.favicons.get(favicon);
+    let dataURL = Application.getInstance().storage.favicons.get(favicon);
     if (dataURL) {
       // some favicon data urls have a corrupted base 64 file type descriptor
       // prefixed with data:png;base64, instead of data:image/png;base64,
@@ -90,7 +90,7 @@ export function createMenu(appWindow: AppWindow, item: IBookmark) {
     {
       label: 'Delete',
       click: async () => {
-        await Application.instance.storage.removeBookmark(item._id);
+        await Application.getInstance().storage.removeBookmark(item._id);
       },
     },
   ];

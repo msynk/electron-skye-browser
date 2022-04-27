@@ -1,4 +1,4 @@
-import { AppWindow } from './windows/app';
+import { AppWindow } from './windows/AppWindow';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { SessionsService } from './sessions-service';
 import { ElectronChromeExtensions } from 'electron-chrome-extensions';
@@ -64,15 +64,31 @@ export class WindowsService {
     });
   }
 
+  // public open(incognito = false) {
+  //   const window = new AppWindow(incognito);
+  //   this.list.push(window);
+
+  //   window.win.on('focus', () => {
+  //     this.lastFocused = window;
+  //   });
+
+  //   return window;
+  // }
+
+  private currentWindow: AppWindow = null;
   public open(incognito = false) {
-    const window = new AppWindow(incognito);
-    this.list.push(window);
+    if (!this.currentWindow) {
+      const window = new AppWindow(incognito);
+      this.list.push(window);
 
-    window.win.on('focus', () => {
-      this.lastFocused = window;
-    });
+      window.win.on('focus', () => {
+        this.lastFocused = window;
+      });
 
-    return window;
+      this.currentWindow = window;
+    }
+    this.currentWindow.win.show();
+    return this.currentWindow;
   }
 
   public findByBrowserView(webContentsId: number) {

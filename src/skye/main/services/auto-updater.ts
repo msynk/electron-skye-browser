@@ -26,9 +26,9 @@ export const runAutoUpdaterService = () => {
   autoUpdater.on('update-downloaded', () => {
     updateAvailable = true;
 
-    for (const window of Application.instance.windows.list) {
+    for (const window of Application.getInstance().windows.list) {
       window.send('update-available');
-      Application.instance.dialogs
+      Application.getInstance().dialogs
         .getDynamic('menu')
         ?.browserView?.webContents?.send('update-available');
     }

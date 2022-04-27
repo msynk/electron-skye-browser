@@ -11,10 +11,10 @@ const getType = (name: string) => {
 
 export const getFormFillMenuItems = async (name: string, value: string) => {
   const dataType = getType(name);
-  const { url } = Application.instance.windows.current.viewManager.selected;
+  const { url } = Application.getInstance().windows.current.viewManager.selected;
   const { hostname } = new URL(url);
 
-  const items = await Application.instance.storage.find<IFormFillData>({
+  const items = await Application.getInstance().storage.find<IFormFillData>({
     scope: 'formfill',
     query: {
       type: dataType,

@@ -262,7 +262,7 @@ export class ITab {
     let index = notClosingTabs.indexOf(this);
 
     if (notClosingTabs.length === 1) {
-      closeWindow();
+      // closeWindow();
     }
 
     this.isClosing = true;

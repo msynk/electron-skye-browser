@@ -101,9 +101,9 @@ export class Settings extends EventEmitter {
       nativeTheme.themeSource = themeSource as any;
     }
 
-    Application.instance.dialogs.sendToAll('update-settings', this.object);
+    Application.getInstance().dialogs.sendToAll('update-settings', this.object);
 
-    for (const window of Application.instance.windows.list) {
+    for (const window of Application.getInstance().windows.list) {
       window.send('update-settings', this.object);
 
       window.viewManager.views.forEach(async (v) => {
@@ -114,8 +114,8 @@ export class Settings extends EventEmitter {
     }
 
     const contexts = [
-      Application.instance.sessions.view,
-      Application.instance.sessions.viewIncognito,
+      Application.getInstance().sessions.view,
+      Application.getInstance().sessions.viewIncognito,
     ];
 
     contexts.forEach(async (e) => {
@@ -152,7 +152,7 @@ export class Settings extends EventEmitter {
 
       if (typeof json.version === 'string') {
         // Migrate from 3.1.0
-        await Application.instance.storage.remove({
+        await Application.getInstance().storage.remove({
           scope: 'startupTabs',
           query: {},
           multi: true,

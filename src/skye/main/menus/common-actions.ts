@@ -6,7 +6,7 @@ export const saveAs = async () => {
   const {
     title,
     webContents,
-  } = Application.instance.windows.current.viewManager.selected;
+  } = Application.getInstance().windows.current.viewManager.selected;
 
   const { canceled, filePath } = await dialog.showSaveDialog({
     defaultPath: title,
@@ -24,7 +24,7 @@ export const saveAs = async () => {
 };
 
 export const viewSource = async () => {
-  const { viewManager } = Application.instance.windows.current;
+  const { viewManager } = Application.getInstance().windows.current;
 
   viewManager.create(
     {
@@ -38,6 +38,6 @@ export const viewSource = async () => {
 export const printPage = () => {
   const {
     webContents,
-  } = Application.instance.windows.current.viewManager.selected;
+  } = Application.getInstance().windows.current.viewManager.selected;
   webContents.print();
 };

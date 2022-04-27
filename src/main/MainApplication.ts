@@ -1,6 +1,6 @@
 // import path from 'path'
 import { app, Tray, Menu, BrowserWindow } from 'electron'
-import { WexondApp } from '~/WexondApp'
+import { SkyeApp } from '~/SkyeApp'
 import { Application } from '~/main/Application'
 
 const path = require('path')
@@ -25,16 +25,16 @@ export class MainApplication {
         this.staticRoot = path.join(root, '..', 'static')
 
         this.tray = new Tray(path.join(this.staticRoot, 'icon.png'))
-        this.tray.setToolTip('Electron Wexond Browser')
+        this.tray.setToolTip('Electron Skye Browser')
         this.tray.setContextMenu(Menu.buildFromTemplate([
             { label: 'Open', click: () => this.openWindow() },
-            { label: 'Open Wexond', click: () => this.openWexond() },
+            { label: 'Open Skye', click: () => this.openSkye() },
             { label: 'Close', click: () => app.exit(0) /*app.quit()*/ },
         ]))
 
         this.openWindow()
 
-        WexondApp.init()
+        SkyeApp.init()
     }
 
     public openWindow() {
@@ -58,7 +58,7 @@ export class MainApplication {
         })
     }
 
-    public openWexond() {
+    public openSkye() {
         Application.getInstance().windows.open()
     }
 }

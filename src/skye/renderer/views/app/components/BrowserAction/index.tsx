@@ -5,7 +5,7 @@ import { IBrowserAction } from '../../models';
 import { ipcRenderer } from 'electron';
 import * as remote from '@electron/remote';
 import store from '../../store';
-import { extensionMainChannel } from '~/common/rpc/extensions';
+import { getExtensionMainChannel } from '~/common/rpc/extensions';
 
 interface Props {
   data: IBrowserAction;
@@ -88,7 +88,7 @@ const onContextMenu = (data: IBrowserAction) => (
     {
       label: 'Inspect background page',
       click: () => {
-        extensionMainChannel
+        getExtensionMainChannel()
           .getInvoker()
           .inspectBackgroundPage(data.extensionId);
       },

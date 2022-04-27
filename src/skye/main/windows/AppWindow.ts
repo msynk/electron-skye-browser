@@ -5,7 +5,7 @@ import { resolve, join } from 'path';
 import { getPath } from '~/utils';
 import { runMessagingService } from '../services';
 import { Application } from '../Application';
-import { isNightly } from '..';
+import { isNightly } from '~/SkyeApp';
 import { ViewManager } from '../view-manager';
 
 export class AppWindow {
@@ -113,50 +113,53 @@ export class AppWindow {
     this.win.on('unmaximize', resize);
 
     this.win.on('close', async (event: Electron.Event) => {
-      const { object: settings } = Application.instance.settings;
+      event.preventDefault();
+      this.win.hide();
 
-      if (settings.warnOnQuit && this.viewManager.views.size > 1) {
-        const answer = dialog.showMessageBoxSync(null, {
-          type: 'question',
-          title: `Quit ${app.name}?`,
-          message: `Quit ${app.name}?`,
-          detail: `You have ${this.viewManager.views.size} tabs open.`,
-          buttons: ['Close', 'Cancel'],
-        });
+      // const { object: settings } = Application.getInstance().settings;
 
-        if (answer === 1) {
-          event.preventDefault();
-          return;
-        }
-      }
+      // if (settings.warnOnQuit && this.viewManager.views.size > 1) {
+      //   const answer = dialog.showMessageBoxSync(null, {
+      //     type: 'question',
+      //     title: `Quit ${app.name}?`,
+      //     message: `Quit ${app.name}?`,
+      //     detail: `You have ${this.viewManager.views.size} tabs open.`,
+      //     buttons: ['Close', 'Cancel'],
+      //   });
+
+      //   if (answer === 1) {
+      //     event.preventDefault();
+      //     return;
+      //   }
+      // }
 
       // Save current window state to a file.
       windowState.maximized = this.win.isMaximized();
       windowState.fullscreen = this.win.isFullScreen();
       writeFileSync(windowDataPath, JSON.stringify(windowState));
 
-      this.win.setBrowserView(null);
+      // this.win.setBrowserView(null);
 
-      this.viewManager.clear();
+      // this.viewManager.clear();
 
-      if (Application.instance.windows.list.length === 1) {
-        Application.instance.dialogs.destroy();
-      }
+      // if (Application.getInstance().windows.list.length === 1) {
+      //   Application.getInstance().dialogs.destroy();
+      // }
 
-      if (
-        incognito &&
-        Application.instance.windows.list.filter((x) => x.incognito).length ===
-          1
-      ) {
-        Application.instance.sessions.clearCache('incognito');
-        Application.instance.sessions.unloadIncognitoExtensions();
-      }
+      // if (
+      //   incognito &&
+      //   Application.getInstance().windows.list.filter((x) => x.incognito).length ===
+      //     1
+      // ) {
+      //   Application.getInstance().sessions.clearCache('incognito');
+      //   Application.getInstance().sessions.unloadIncognitoExtensions();
+      // }
 
-      Application.instance.windows.list = Application.instance.windows.list.filter(
-        (x) => x.win.id !== this.win.id,
-      );
+      // Application.getInstance().windows.list = Application.getInstance().windows.list.filter(
+      //   (x) => x.win.id !== this.win.id,
+      // );
 
-      Application.instance.windows.current = undefined;
+      // Application.getInstance().windows.current = undefined;
     });
 
     // this.webContents.openDevTools({ mode: 'detach' });
@@ -200,7 +203,7 @@ export class AppWindow {
     });
 
     this.win.on('focus', () => {
-      Application.instance.windows.current = this;
+      Application.getInstance().windows.current = this;
     });
   }
 

@@ -12,7 +12,8 @@
     "build": "rimraf build && concurrently \"npm run build-renderer\" \"webpack\"",
     "lint": "eslint \"src/**/*.ts*\" \"src/**/*.tsx*\"",
     "lint-fix": "npm run lint -- --fix",
-    "rebuild": "electron-builder install-app-deps"
+    "rebuild": "electron-builder install-app-deps",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",

@@ -136,13 +136,13 @@ export class ViewManager extends EventEmitter {
     this.views.set(id, view);
 
     if (process.env.ENABLE_EXTENSIONS) {
-      Application.instance.sessions.chromeExtensions.addTab(
+      Application.getInstance().sessions.chromeExtensions.addTab(
         webContents,
         this.window.win,
       );
 
       if (details.active) {
-        Application.instance.sessions.chromeExtensions.selectTab(webContents);
+        Application.getInstance().sessions.chromeExtensions.selectTab(webContents);
       }
     }
 
@@ -162,7 +162,7 @@ export class ViewManager extends EventEmitter {
   }
 
   public async select(id: number, focus = true) {
-    console.trace();
+    // console.trace();
     const { selected } = this;
     const view = this.views.get(id);
     if (!view) {
@@ -190,7 +190,7 @@ export class ViewManager extends EventEmitter {
 
     view.updateNavigationState();
 
-    Application.instance.sessions.chromeExtensions.selectTab(view.webContents);
+    Application.getInstance().sessions.chromeExtensions.selectTab(view.webContents);
     this.emit('activated', id);
 
     // TODO: this.emitZoomUpdate(false);
@@ -253,7 +253,7 @@ export class ViewManager extends EventEmitter {
   }
 
   public emitZoomUpdate(showDialog = true) {
-    Application.instance.dialogs
+    Application.getInstance().dialogs
       .getDynamic('zoom')
       ?.browserView?.webContents?.send(
         'zoom-factor-updated',

@@ -29,6 +29,18 @@ const mainConfig = getConfig({
             ).code.toString();
           },
         },
+        {
+          from: 'src/main/preload.js',
+          to: 'main/preload.js'
+        },
+        {
+          from: 'src/renderer/index.html',
+          to: 'renderer/index.html',
+        },
+        {
+          from: 'src/renderer/index.js',
+          to: 'renderer/index.js',
+        },
       ],
     }),
   ],
